@@ -7,7 +7,7 @@ import 'package:notesapp/screens/splashscreen/splashscreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  FirebaseApp app = await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
