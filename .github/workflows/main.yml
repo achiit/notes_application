@@ -21,6 +21,11 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.10.6'
+        env:
+          KEY_JKS: ${{ secrets.KEY_JKS }}
+          KEY_PASSWORD: ${{ secrets.notesapp }}
+          ALIAS_PASSWORD: ${{ secrets.notesapp }}
+          run: echo $KEY_JKS > key.jks && flutter pub get && flutter test && flutter build apk --release
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk --debug --split-per-abi
