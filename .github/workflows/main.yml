@@ -27,7 +27,7 @@ jobs:
           ALIAS_PASSWORD: ${{ secrets.notesapp }}
           run: echo $KEY_JKS > key.jks && flutter pub get && flutter test && flutter build apk --release
       - run: flutter pub get
-      - run flutter build appbundle --release
+      - run: flutter build appbundle --release
       - run: flutter build apk --debug --split-per-abi
       - run: flutter build apk
       
