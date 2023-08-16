@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:notesapp/screens/homescreens/notesscreen/homescreen.dart';
-import 'package:notesapp/screens/onboardingsceens/onboardingview.dart';
+
 import 'package:notesapp/screens/splashscreen/splashscreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseApp app = await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

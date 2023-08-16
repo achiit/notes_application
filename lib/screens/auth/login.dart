@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:notesapp/screens/homescreens/notesscreen/homescreen.dart';
 import 'package:notesapp/screens/auth/createaccount.dart';
 import 'package:notesapp/screens/auth/forgotpassword.dart';
@@ -196,7 +197,10 @@ class _LoginPageState extends State<LoginPage> {
                             showDialog(
                               context: context,
                               builder: (context) => Center(
-                                child: CircularProgressIndicator(),
+                                child: SpinKitCubeGrid(
+                            size: 50,
+                            color: Colors.orange,
+                          ),
                               ),
                             );
                             await auth

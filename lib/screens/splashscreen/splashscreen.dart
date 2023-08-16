@@ -2,8 +2,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:notesapp/screens/homescreens/notesscreen/homescreen.dart';
 import 'package:notesapp/screens/onboardingsceens/onboardingview.dart';
 import 'package:notesapp/widgeets/customnavbar.dart';
 import 'package:page_transition/page_transition.dart';

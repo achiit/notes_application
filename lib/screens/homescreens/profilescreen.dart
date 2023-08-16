@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/screens/auth/createaccount.dart';
 import 'package:notesapp/screens/auth/login.dart';
 import 'package:notesapp/screens/homescreens/aboutscreen.dart';
+import 'package:notesapp/services/getuserdata.dart';
 import 'package:notesapp/widgeets/customalertdialog.dart';
 import 'package:notesapp/widgeets/custombutton.dart';
 
@@ -20,30 +21,20 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Map<String, dynamic> userData = {};
+  final UserDataService _userDataService = UserDataService();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) async {
-      userData = await getUserData();
-      setState(() {});
-    });
+    fetchUserData();
   }
 
-  Future<Map<String, dynamic>> getUserData() async {
-    final User? user = await FirebaseAuth.instance.currentUser;
-    final uid = user!.uid;
-    var data = await firestore
-        .collection("notes-$uid")
-        .doc(uid)
-        .collection("userinfo")
-        .get();
-    data.docs.forEach((doc) {
-      userData = doc.data();
+  Future<void> fetchUserData() async {
+    final user = await _userDataService.getUserData();
+    setState(() {
+      userData = user;
     });
-    print(userData);
-    return userData;
   }
 
   @override

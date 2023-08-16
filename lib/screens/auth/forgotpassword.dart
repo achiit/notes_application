@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:notesapp/services/auth/authservices.dart';
 import 'package:notesapp/widgeets/custombutton.dart';
 import 'package:notesapp/widgeets/customtextformfield.dart';
