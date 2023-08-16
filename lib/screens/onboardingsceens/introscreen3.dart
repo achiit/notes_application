@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:notesapp/screens/auth/createaccount.dart';
 import 'package:notesapp/screens/auth/login.dart';
 import 'package:notesapp/widgeets/custombutton.dart';
@@ -76,7 +76,7 @@ class _IntroScreen3State extends State<IntroScreen3> {
               ),
               CustomButton(
                 onpressed: () {
-                   Navigator.pushAndRemoveUntil(
+                  Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),
                       (route) => false);

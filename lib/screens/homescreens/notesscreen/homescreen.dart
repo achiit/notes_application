@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/constants/colors.dart';
@@ -13,6 +14,9 @@ import 'package:notesapp/screens/auth/createaccount.dart';
 import 'package:notesapp/screens/homescreens/notesscreen/editnote.dart';
 
 import 'package:notesapp/screens/homescreens/notesscreen/notespage.dart';
+import 'package:notesapp/screens/homescreens/notesscreen/flippingcard.dart';
+import 'package:notesapp/screens/homescreens/notesscreen/stickynote.dart';
+import 'package:notesapp/widgeets/appdrawer.dart';
 import 'package:notesapp/widgeets/colorpalatte.dart';
 
 class NotesScreen extends StatefulWidget {
@@ -73,7 +77,8 @@ class _NotesScreenState extends State<NotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      drawer: const NavigationDrawers(),
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -125,7 +130,10 @@ class _NotesScreenState extends State<NotesScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
-                          child: CircularProgressIndicator(),
+                          child: SpinKitCubeGrid(
+                            size: 50,
+                            color: Colors.orange,
+                          ),
                         );
                       } else if (snapshot.hasError) {
                         return Text("Error: ${snapshot.error}");
@@ -206,26 +214,44 @@ class _NotesScreenState extends State<NotesScreen> {
         final title = noteData["title"] ?? "";
         final color = noteData["color"] ?? Colors.white;
         final content = noteData["content"] ?? "";
-        return GestureDetector(
-          onTap: () async {
-            final User? user = FirebaseAuth.instance.currentUser;
-            final uid = user!.uid;
-            final QuerySnapshot<Map<String, dynamic>> snapshot =
-                await FirebaseFirestore.instance
-                    .collection("notes-$uid")
-                    .doc(uid)
-                    .collection("notesinfo")
-                    .get();
-            final noteId = snapshot.docs[index].id;
+        return FlippingCard(
+          frontSide: _buildFrontSide(title, color),
+          backSide: _buildBackSide(title, content, color, index, noteData),
+        );
+      },
+    );
+  }
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditNote(
-                          noteData: noteData,
-                          noteId: noteId,
-                        )));
-          },
+  Widget _buildBackSide(
+      String title, String content, String color, int index, var noteData) {
+    return Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationX(pi),
+      child: GestureDetector(
+        onTap: () async {
+          final User? user = FirebaseAuth.instance.currentUser;
+          final uid = user!.uid;
+          final QuerySnapshot<Map<String, dynamic>> snapshot =
+              await FirebaseFirestore.instance
+                  .collection("notes-$uid")
+                  .doc(uid)
+                  .collection("notesinfo")
+                  .get();
+          final noteId = snapshot.docs[index].id;
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditNote(
+                        noteData: noteData,
+                        noteId: noteId,
+                      )));
+        },
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          // Customize the color for the back side
           child: Stack(
             children: [
               Card(
@@ -298,8 +324,25 @@ class _NotesScreenState extends State<NotesScreen> {
               ),
             ],
           ),
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFrontSide(String title, String color) {
+    return StickyNote(
+      color: Color(NoteColors[color]!['b']!.toInt()),
+      child: Text(
+        title.length > 15
+            ? '${title.substring(0, 10)}....'.toUpperCase()
+            : title.toUpperCase(),
+        textAlign: TextAlign.center,
+        style: GoogleFonts.poppins(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          color: Colors.black, // Change the text color as needed
+        ),
+      ),
     );
   }
 

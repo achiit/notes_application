@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:notesapp/screens/auth/createaccount.dart';
 import 'package:notesapp/screens/auth/login.dart';
 import 'package:notesapp/widgeets/custombutton.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:notesapp/screens/onboardingsceens/introscreen1.dart';
 import 'package:notesapp/screens/onboardingsceens/introscreen2.dart';
 import 'package:notesapp/screens/onboardingsceens/introscreen3.dart';
