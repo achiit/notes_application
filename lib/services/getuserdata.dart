@@ -11,7 +11,7 @@ class UserDataService {
         .collection("notes-$uid")
         .doc(uid)
         .collection("userinfo")
-        .get(GetOptions(source: Source.cache));
+        .get();
 
     Map<String, dynamic> userData = {};
 
